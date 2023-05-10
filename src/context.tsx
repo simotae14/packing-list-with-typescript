@@ -12,10 +12,13 @@ type ItemsState = {
   unpackedItems: Item[];
   packedItems: Item[];
   add: (name: string) => void;
-  update: (id: string, updates: any) => void;
+  update: (id: string, updates: WithoutId) => void;
   remove: (id: string) => void;
   markAllAsUnpacked: () => void;
 };
+
+type PartialItem = Partial<Item>;
+type WithoutId = Omit<PartialItem, 'id'>
 
 export const ItemsContext = createContext({} as ItemsState);
 
@@ -28,7 +31,7 @@ const ItemsProvider = ({ children }: PropsWithChildren) => {
     setItems([...items, item]);
   };
 
-  const update = (id: string, updates: any) => {
+  const update = (id: string, updates: WithoutId) => {
     setItems(updateItem(items, id, updates));
   };
 
